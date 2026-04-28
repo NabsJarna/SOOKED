@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 const MINT = "#2ECC9A";
 const DARK = "#162220";
@@ -53,26 +54,30 @@ export default function Home() {
         ) : (
           <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:12 }}>
             {listings.map((l:any)=>(
-              <div key={l.id} style={{ background:"#fff", borderRadius:16, overflow:"hidden", boxShadow:"0 2px 12px rgba(22,34,32,0.07)" }}>
-                <div style={{ position:"relative", paddingTop:"120%", background:"#F2F5F4" }}>
-                  {l.images?.[0]
-                    ? <img src={l.images[0]} alt={l.title} style={{ position:"absolute", inset:0, width:"100%", height:"100%", objectFit:"cover" }}/>
-                    : <div style={{ position:"absolute", inset:0, display:"flex", alignItems:"center", justifyContent:"center", fontSize:32 }}>👗</div>
-                  }
-                  <div style={{ position:"absolute", bottom:8, left:8, background:"rgba(255,255,255,0.9)", borderRadius:20, padding:"2px 8px", fontSize:11, fontWeight:600, color:MINT }}>
-                    {l.condition}
+              <Link key={l.id} href={`/listings/${l.id}`} style={{ textDecoration:"none", color:"inherit" }}>
+                <div style={{ background:"#fff", borderRadius:16, overflow:"hidden", boxShadow:"0 2px 12px rgba(22,34,32,0.07)", cursor:"pointer", transition:"all 0.2s" }} 
+                  onMouseEnter={(e)=>{ e.currentTarget.style.transform="translateY(-4px)"; e.currentTarget.style.boxShadow="0 4px 20px rgba(22,34,32,0.12)"; }}
+                  onMouseLeave={(e)=>{ e.currentTarget.style.transform="translateY(0)"; e.currentTarget.style.boxShadow="0 2px 12px rgba(22,34,32,0.07)"; }}>
+                  <div style={{ position:"relative", paddingTop:"120%", background:"#F2F5F4" }}>
+                    {l.images?.[0]
+                      ? <img src={l.images[0]} alt={l.title} style={{ position:"absolute", inset:0, width:"100%", height:"100%", objectFit:"cover" }}/>
+                      : <div style={{ position:"absolute", inset:0, display:"flex", alignItems:"center", justifyContent:"center", fontSize:32 }}>👗</div>
+                    }
+                    <div style={{ position:"absolute", bottom:8, left:8, background:"rgba(255,255,255,0.9)", borderRadius:20, padding:"2px 8px", fontSize:11, fontWeight:600, color:MINT }}>
+                      {l.condition}
+                    </div>
+                  </div>
+                  <div style={{ padding:"10px 12px" }}>
+                    <div style={{ fontSize:13, fontWeight:600, color:DARK, overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap" }}>{l.title}</div>
+                    <div style={{ fontSize:12, color:GRAY, marginTop:2 }}>{l.city} · {l.size}</div>
+                    <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginTop:8 }}>
+                      <span style={{ fontSize:16, fontWeight:800, color:DARK }}>{l.price} DH</span>
+                      {l.isNegotiable && <span style={{ background:"#E8FBF4", color:MINT, fontSize:10, fontWeight:600, padding:"2px 8px", borderRadius:20 }}>Négociable</span>}
+                    </div>
+                    <div style={{ fontSize:11, color:GRAY, marginTop:4 }}>{l.user?.name} · {l.user?.rating}★</div>
                   </div>
                 </div>
-                <div style={{ padding:"10px 12px" }}>
-                  <div style={{ fontSize:13, fontWeight:600, color:DARK, overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap" }}>{l.title}</div>
-                  <div style={{ fontSize:12, color:GRAY, marginTop:2 }}>{l.city} · {l.size}</div>
-                  <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginTop:8 }}>
-                    <span style={{ fontSize:16, fontWeight:800, color:DARK }}>{l.price} DH</span>
-                    {l.isNegotiable && <span style={{ background:"#E8FBF4", color:MINT, fontSize:10, fontWeight:600, padding:"2px 8px", borderRadius:20 }}>Négociable</span>}
-                  </div>
-                  <div style={{ fontSize:11, color:GRAY, marginTop:4 }}>{l.user?.name} · {l.user?.rating}★</div>
-                </div>
-              </div>
+              </Link>
             ))}
           </div>
         )}
