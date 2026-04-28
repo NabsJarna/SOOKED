@@ -28,7 +28,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
     // Mettre à jour la commande
     const updatedOrder = await prisma.order.update({
       where: { id },
-      data: { status: "delivered" },
+      data: { status: "confirmed" },
       include: { buyer: true, seller: true, listing: true },
     });
 
